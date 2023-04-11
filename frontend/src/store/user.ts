@@ -21,5 +21,23 @@ export const useUserStore = defineStore('user', {
 
 	getters: {
 		isLoggedIn: state => state.token !== '',
+
+		toJson: state => ({
+			id: state.id,
+			token: state.token,
+			phone: state.phone,
+			fullname: state.fullname,
+			isStaff: state.isStaff,
+		}),
+	},
+
+	actions: {
+		setUser(user: typeof defaultUserState) {
+			this.id = user.id;
+			this.token = user.token;
+			this.phone = user.phone;
+			this.fullname = user.fullname;
+			this.isStaff = user.isStaff;
+		},
 	},
 });
