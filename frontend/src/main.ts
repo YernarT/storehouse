@@ -6,6 +6,9 @@ import { useUserStore } from '@/store';
 
 // App
 import App from '@/components/App.vue';
+// Icons
+import { OhVueIcon, addIcons } from 'oh-vue-icons';
+import { MdQrcodescanner } from 'oh-vue-icons/icons';
 
 // Global css files
 import '@/assets/style/variable.css';
@@ -24,8 +27,11 @@ const pinia = createPinia();
 // App
 const app = createApp(App);
 
-// Use
+addIcons(MdQrcodescanner);
+
+// Extend
 app.use(router).use(pinia);
+app.component('Icon', OhVueIcon);
 
 // Route guard
 router.beforeEach(guard => {
