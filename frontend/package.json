@@ -10,11 +10,16 @@
   },
   "dependencies": {
     "@vueuse/core": "^9.13.0",
+    "lodash": "^4.17.21",
+    "oh-vue-icons": "1.0.0-rc3",
     "pinia": "^2.0.34",
     "vue": "^3.2.47",
+    "vue-barcode-reader": "^1.0.3",
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.192",
+    "@types/vue-barcode-reader": "^0.0.0",
     "@vitejs/plugin-vue": "^4.1.0",
     "autoprefixer": "^10.4.14",
     "path": "^0.12.7",
