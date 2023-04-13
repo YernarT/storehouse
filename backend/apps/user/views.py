@@ -22,11 +22,21 @@ class LoginView(APIView):
                 return JsonResponse(data, status=400)
         else:
             try:
-                user = User.objects.get(phone=login, password=password)
+                user = User.objects.get(phone=login)
             except User.DoesNotExist:
-                user = User.objects.create(phone=login, password=password, is_staff=False)
+                user = User.objects.create(
+                    phone=login, password=password, is_staff=False)
+            else:
+                if user.password != password:
+                    data = {'is_success': False,
+                            'message': 'Телефон нөмер немесе құпиясөз қате'}
+                    return JsonResponse(data, status=400)
 
-        data = user.to_json()
-        data['token'] = create_token(user.id)
+        user_json = user.to_json()
+        user_json['token'] = create_token(user.id)
+        data = {
+            'is_success': True,
+            'data': user_json
+        }
 
         return JsonResponse(data, status=200)
