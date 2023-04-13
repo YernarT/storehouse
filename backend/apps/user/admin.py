@@ -5,4 +5,4 @@ from user.models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('id', )
