@@ -16,7 +16,7 @@ class Ticket(models.Model):
     def to_json(self):
         return {
             'id': self.id,
-            'name': self.id,
+            'name': self.name,
             'expiration_date': self.expiration_date,
         }
 
