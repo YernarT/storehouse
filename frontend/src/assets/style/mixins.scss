@@ -22,17 +22,31 @@
 	gap: $gap;
 }
 
-@mixin positioned($position: absolute, $top: 0, $left: 0, $zIndex: 1) {
+@mixin positioned(
+	$position: absolute,
+	$top: auto,
+	$left: auto,
+	$bottom: auto,
+	$right: auto,
+	$zIndex: 1
+) {
 	position: $position;
 	top: $top;
 	left: $left;
+	bottom: $bottom;
+	right: $right;
 	z-index: $zIndex;
 }
 
-@mixin centerPositioned($position: absolute, $top: 50%, $left: 50%, $zIndex: 1) {
+@mixin centerPositioned(
+	$position: absolute,
+	$top: 50%,
+	$left: 50%,
+	$zIndex: 1
+) {
 	position: $position;
 	top: $top;
 	left: $left;
 	z-index: $zIndex;
-    transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
