@@ -17,6 +17,7 @@
 			<Input
 				id="passwordInput"
 				class="field"
+				type="password"
 				:value="formData.password"
 				@change="value => (formData.password = value)"
 			/>
