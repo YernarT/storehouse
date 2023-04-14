@@ -35,6 +35,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useRequest } from 'vue-hooks-plus';
 // Store
 import { useUserStore } from '@/store';
+// Utils
+import { localStorage } from '@/utils';
 // Component
 import Input from '@/components/Input/index.vue';
 import Button from '@/components/Button/index.vue';
@@ -71,7 +73,7 @@ const handleLogin = () => {
 	})
 		.then(({ data }) => {
 			user.setUser(data);
-			localStorage.setItem('user', JSON.stringify(user.toJson));
+			localStorage.set('user', user.toJson);
 			router.push('/ticket');
 		})
 		.catch(error => {
