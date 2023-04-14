@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { localStorage } from '@/utils';
 
 export const defaultUserState = {
 	id: 0,
@@ -9,15 +10,7 @@ export const defaultUserState = {
 };
 
 export const useUserStore = defineStore('user', {
-	state: () => {
-		const localData = localStorage.getItem('user');
-
-		if (localData) {
-			return JSON.parse(localData);
-		}
-
-		return defaultUserState;
-	},
+	state: () => localStorage.get('user', defaultUserState),
 
 	getters: {
 		isLoggedIn: state => state.token !== '',
