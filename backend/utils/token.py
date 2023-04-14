@@ -17,5 +17,6 @@ def check_token(encoded: str):
     
     try:
         return User.objects.get(id=user_id)
-    except User.DoesNotExist:
+    # except User.DoesNotExist:
+    except Exception:
         return False
