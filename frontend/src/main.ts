@@ -9,6 +9,8 @@ import App from '@/components/App.vue';
 // Icons
 import { OhVueIcon, addIcons } from 'oh-vue-icons';
 import { MdQrcodescanner } from 'oh-vue-icons/icons';
+// UI Lib
+import ElementPlus from 'element-plus';
 
 // Global css files
 import '@/assets/style/variable.css';
@@ -30,7 +32,7 @@ const app = createApp(App);
 addIcons(MdQrcodescanner);
 
 // Extend
-app.use(router).use(pinia);
+app.use(router).use(pinia).use(ElementPlus);
 app.component('Icon', OhVueIcon);
 
 // Route guard
