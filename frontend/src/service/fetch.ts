@@ -5,10 +5,7 @@
  * 3. error type
  */
 
-// const HOST = 'http://192.168.100.7';
-// const HOST = 'http://192.168.31.222';
-// const HOST = 'http://192.168.218.157';
-const HOST = 'http://192.168.100.7';
+const HOST = 'http://127.0.0.1';
 const PORT = '8000';
 
 const BASE_URL = `${HOST}:${PORT}/api`;
