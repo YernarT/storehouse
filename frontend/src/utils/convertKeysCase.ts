@@ -1,6 +1,13 @@
 import _ from 'lodash';
 
-export function convertKeysCase(object: object, case_: 'camel' | 'snake') {
+export function convertKeysCase(
+	object: object,
+	case_: 'camel' | 'snake',
+): object {
+	if (Array.isArray(object)) {
+		return object.map(item => convertKeysCase(item, case_));
+	}
+
 	const newObj = {};
 
 	_.forEach(object, (value, key) => {
@@ -12,5 +19,6 @@ export function convertKeysCase(object: object, case_: 'camel' | 'snake') {
 			newObj[_[`${case_}Case`](key)] = value;
 		}
 	});
+
 	return newObj;
 }
