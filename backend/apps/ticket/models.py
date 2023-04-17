@@ -18,6 +18,7 @@ class Ticket(models.Model):
             'id': self.id,
             'name': self.name,
             'expiration_date': self.expiration_date,
+            'is_mine': self.is_mine or False,
         }
 
 
