@@ -5,6 +5,10 @@ import path from 'path';
 import autoprefixer from 'autoprefixer';
 import sass from 'sass';
 
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+
 // https://vitejs.dev/config/
 export default defineConfig({
 	resolve: {
@@ -13,7 +17,15 @@ export default defineConfig({
 		},
 	},
 
-	plugins: [vue()],
+	plugins: [
+		vue(),
+		AutoImport({
+			resolvers: [ElementPlusResolver()],
+		}),
+		Components({
+			resolvers: [ElementPlusResolver()],
+		}),
+	],
 
 	css: {
 		postcss: {
