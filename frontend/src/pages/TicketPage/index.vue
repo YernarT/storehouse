@@ -10,11 +10,31 @@
 			/>
 		</div>
 
-		<QRScan v-if="user.isStaff && state.showScan" @resolve="handleScan" />
+		<QRScan
+			v-if="user.isStaff && state.showScan"
+			@resolve="handleScan"
+			@reject="handleScanError"
+		/>
 		<BottomNavbar
 			@scan="state.showScan = !state.showScan"
 			@filter="handleFilter"
 		/>
+
+		<el-drawer
+			v-model="state.showScanResult"
+			title="QR Нәтиже"
+			direction="btt"
+			size="50%"
+		>
+			<div class="qr-result">
+				<div v-if="!state.scanResult.isSuccess" class="error">
+					{{ state.scanResult.message }}
+				</div>
+				<div v-else class="success">
+					{{ state.scanResult.message }}
+				</div>
+			</div>
+		</el-drawer>
 	</div>
 </template>
 
@@ -27,8 +47,6 @@ import { reactive } from 'vue';
 import QRScan from '@/components/QRScan/index.vue';
 import TicketCard from '@/components/TicketCard/index.vue';
 import BottomNavbar from '@/components/BottomNavbar/index.vue';
-// UI Lib
-import { ElNotification } from 'element-plus';
 // Hooks
 import { useRequest } from 'vue-hooks-plus';
 // Store
@@ -38,6 +56,11 @@ import { API_GetAllTicket } from '@/service/ticket-api';
 
 const state = reactive({
 	showScan: false,
+	showScanResult: false,
+	scanResult: {
+		isSuccess: true,
+		message: '',
+	},
 	ticketList: [] as I_Ticket[],
 });
 const user = useUserStore();
@@ -50,11 +73,17 @@ useRequest(API_GetAllTicket, {
 
 const handleScan = (value: string) => {
 	state.showScan = false;
+	state.showScanResult = true;
+	state.scanResult.isSuccess = true;
+	state.scanResult.message = `Билет: ${value}`;
+};
 
-	ElNotification({
-		title: 'QR Нәтиже',
-		message: value,
-	});
+const handleScanError = () => {
+	state.showScan = false;
+	state.showScan = false;
+	state.showScanResult = true;
+	state.scanResult.isSuccess = false;
+	state.scanResult.message = 'QR код танылмады';
 };
 
 const handleFilter = () => {
@@ -85,8 +114,11 @@ const handleBuy = (ticket: I_Ticket) => {
 		@include flex($direction: column, $gap: 16px);
 		padding: 16px;
 		padding-bottom: calc(16px + 72px);
+	}
 
-		.ticket {
+	.qr-result {
+		.error {
+			color: #e20d0d;
 		}
 	}
 }
