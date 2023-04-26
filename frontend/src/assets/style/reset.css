@@ -26,3 +26,9 @@ body {
 	font-display: swap;
 	color: var(--c-text);
 }
+
+[class*='ant'] {
+	/* Global fonts */
+	font-family: 'Roboto', sans-serif;
+	font-display: swap;
+}
