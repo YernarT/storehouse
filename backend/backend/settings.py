@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'corsheaders',
+    'rest_framework',
 
     'user',
     'ticket',
@@ -132,3 +133,14 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# DRF Config
+REST_FRAMEWORK = {
+    # Custom catch API exception
+    'EXCEPTION_HANDLER': 'utils.custom_exception.custom_exception_handler',
+    
+    # Global authentication
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'utils.authentication.JWTAuthentication',
+    ],
+}
