@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('phone', models.CharField(max_length=11, verbose_name='Телефон нөмер')),
                 ('fullname', models.CharField(default='', max_length=40, verbose_name='Аты-жөні')),
-                ('is_staff', models.BooleanField(verbose_name='Қызыметші?')),
+                ('is_staff', models.BooleanField(verbose_name='Қызметші?')),
             ],
             options={
                 'verbose_name': 'Аккауант',
