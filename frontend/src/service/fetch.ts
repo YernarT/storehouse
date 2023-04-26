@@ -11,10 +11,10 @@ const PORT = '8000';
 const BASE_URL = `${HOST}:${PORT}/api`;
 
 import { localStorage, objectToUrlParams, convertKeysCase } from '@/utils';
-import { defaultUserState } from '@/store/user';
+import { defaultUserState } from '@/store/user-atom';
 
 export default {
-	async get<T>(url: string, params?: object): Promise<{ data: T }> {
+	async get<T>(url: string, params?: object): Promise<T> {
 		if (params) {
 			url += `?${objectToUrlParams(params)}`;
 		}
@@ -27,16 +27,17 @@ export default {
 			method: 'GET',
 			headers: {
 				Authorization: token,
+				'Content-Type': 'application/json',
 			},
 		}).catch(() => {
-			return { 'isSuccess': false, message: 'Сервер уақытша жабық' };
+			return { isSuccess: false, message: 'Сервер уақытша жабық' };
 		});
 
 		if (response instanceof Response) {
 			const data = await response.json();
 
 			if (response.status >= 200 && response.status < 300) {
-				return convertKeysCase(data!, 'camel') as any as { data: T };
+				return convertKeysCase(data!, 'camel') as any as T;
 			}
 
 			return await Promise.reject(data);
@@ -45,7 +46,7 @@ export default {
 		return await Promise.reject(response);
 	},
 
-	async post<T>(url: string, data?: object): Promise<{ data: T }> {
+	async post<T>(url: string, data?: object): Promise<T> {
 		if (data) {
 			data = convertKeysCase(data, 'snake');
 		}
@@ -59,16 +60,17 @@ export default {
 			body: JSON.stringify(data),
 			headers: {
 				Authorization: token,
+				'Content-Type': 'application/json',
 			},
 		}).catch(() => {
-			return { 'isSuccess': false, message: 'Сервер уақытша жабық' };
+			return { isSuccess: false, message: 'Сервер уақытша жабық' };
 		});
 
 		if (response instanceof Response) {
 			data = await response.json();
 
 			if (response.status >= 200 && response.status < 300) {
-				return convertKeysCase(data!, 'camel') as any as { data: T };
+				return convertKeysCase(data!, 'camel') as any as T;
 			}
 
 			return await Promise.reject(data);
