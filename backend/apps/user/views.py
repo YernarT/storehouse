@@ -1,42 +1,54 @@
-from django.http import JsonResponse
-from utils.api_view import APIView
-from utils.token import create_token, check_token
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
+from user.serializers import (UserSerializer, LoginSerializer)
 from user.models import User
 
+from utils.jwt import create_jwt
 
-class LoginView(APIView):
+
+class UserViewSet(ModelViewSet):
+    """
+    User API 
+    """
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def get_serializer_context(self):
+        """
+        update context object
+        """
+        context = super().get_serializer_context()
+        context.update({'request': self.request})
+
+        return context
+
+    def create(self, request, *args, **kwargs):
+        """
+        register user
+        """
+        response = super().create(request, *args, **kwargs)
+        response.data['token'] = create_jwt({'uid': response.data['id']})
+
+        return response
+
+
+class LoginAPIView(APIView):
+    """
+    Login API
+    """
+    authentication_classes = []
 
     def post(self, request):
-        data = self.get_data(request)
-        login = data.get('login')
-        password = data.get('password')
-        is_staff = data.get('is_staff')
+        serializer = LoginSerializer(data=request.data)
 
-        if is_staff:
-            try:
-                user = User.objects.get(id=login, password=password)
-            except User.DoesNotExist:
-                data = {'is_success': False,
-                        'message': 'ID немесе құпия сөз қате'}
-                return JsonResponse(data, status=400)
-        else:
-            try:
-                user = User.objects.get(phone=login)
-            except User.DoesNotExist:
-                user = User.objects.create(
-                    phone=login, password=password, is_staff=False)
-            else:
-                if user.password != password:
-                    data = {'is_success': False,
-                            'message': 'Телефон нөмер немесе құпиясөз қате'}
-                    return JsonResponse(data, status=400)
+        serializer.is_valid(raise_exception=True)
 
-        user_json = user.to_json()
-        user_json['token'] = create_token(user.id)
-        data = {
-            'is_success': True,
-            'data': user_json
-        }
+        user = serializer.is_correct()
+        token = create_jwt({'uid': user.id})
 
-        return JsonResponse(data, status=200)
+        data = UserSerializer(instance=user).data
+        data['token'] = token
+
+        return Response(data)

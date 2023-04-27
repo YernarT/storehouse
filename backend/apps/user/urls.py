@@ -1,6 +1,21 @@
 from django.urls import path
-from user.views import LoginView
+from rest_framework import routers
+from django.conf import settings
 
-urlpatterns = [
-    path('user/login', LoginView.as_view())
+from user.views import UserViewSet, LoginAPIView
+
+if settings.DEBUG:
+    router = routers.DefaultRouter()
+else:
+    router = routers.SimpleRouter()
+
+router.register(r'user', UserViewSet)
+
+urlpatterns = router.urls
+
+urlpatterns += [
+    # Login API
+    path('login', LoginAPIView.as_view()),
 ]
+
+app_name = 'user'
