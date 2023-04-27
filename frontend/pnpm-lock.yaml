@@ -19,6 +19,9 @@ dependencies:
   react-dom:
     specifier: 17.0.2
     version: 17.0.2(react@17.0.2)
+  react-icons:
+    specifier: ^4.8.0
+    version: 4.8.0(react@17.0.2)
   react-router-dom:
     specifier: 5.3.4
     version: 5.3.4(react@17.0.2)
@@ -1850,6 +1853,14 @@ packages:
       object-assign: 4.1.1
       react: 17.0.2
       scheduler: 0.20.2
+    dev: false
+
+  /react-icons@4.8.0(react@17.0.2):
+    resolution: {integrity: sha512-N6+kOLcihDiAnj5Czu637waJqSnwlMNROzVZMhfX68V/9bu9qHaMIJC4UdozWoOk57gahFCNHwVvWzm0MTzRjg==}
+    peerDependencies:
+      react: '*'
+    dependencies:
+      react: 17.0.2
     dev: false
 
   /react-is@16.13.1:
