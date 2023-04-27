@@ -13,14 +13,6 @@ class Ticket(models.Model):
     def __str__(self):
         return f'{self.name}'
 
-    def to_json(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'expiration_date': self.expiration_date,
-            'is_mine': self.is_mine or False,
-        }
-
 
 class UserTicket(models.Model):
     buyer = models.ForeignKey(
@@ -38,10 +30,3 @@ class UserTicket(models.Model):
     def __str__(self):
         return f'{self.buyer} - {self.ticket}'
     
-    def to_json(self):
-        return {
-            'id': self.id,
-            'buyer': self.buyer.to_json(),
-            'ticket': self.ticket.to_json(),
-            'purchase_time': self.purchase_time,
-        }
