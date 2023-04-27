@@ -4,4 +4,5 @@ export interface I_User {
 	phone: string;
 	fullname: string;
 	isStaff: boolean;
+	createTime: string;
 }
