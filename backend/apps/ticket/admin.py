@@ -3,9 +3,11 @@ from ticket.models import Ticket, UserTicket
 
 # Register your models here.
 
+
 @admin.register(Ticket)
 class TicketAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('id', )
+
 
 @admin.register(UserTicket)
 class UserTicketAdmin(admin.ModelAdmin):
