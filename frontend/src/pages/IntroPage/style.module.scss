@@ -1,0 +1,21 @@
+@import '@/assets/style/mixins.scss';
+
+.introPage {
+	@include flex($direction: column, $alignItems: center);
+	margin-top: 25%;
+
+	:global .title {
+		font-size: 40px;
+		font-weight: 700;
+	}
+	:global .subtitle {
+		font-size: 26px;
+		font-weight: 700;
+		text-align: center;
+	}
+
+	:global .action-group {
+		margin-top: 40px;
+		@include flex($direction: column, $alignItems: center, $gap: 16px);
+	}
+}
