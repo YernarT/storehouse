@@ -6,6 +6,8 @@ import { useRequest } from 'ahooks';
 // API
 import { API_GetAllTicket } from '@/service/ticket-api';
 
+// Antd component
+import { Empty } from 'antd';
 // Custom component
 import { TicketCard } from '@/components/ticket';
 
@@ -28,6 +30,7 @@ export default function TicketPage() {
 			{ticketList.map(ticket => (
 				<TicketCard key={ticket.id} ticket={ticket} />
 			))}
+			{ticketList.length === 0 && <Empty description="Билет жоқ" />}
 		</main>
 	);
 }
