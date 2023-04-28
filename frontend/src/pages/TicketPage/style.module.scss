@@ -1,0 +1,8 @@
+@import '@/assets/style/mixins.scss';
+
+.ticketPage {
+	padding: 16px;
+	padding-bottom: calc(64px + 32px);
+
+	@include flex($direction: column, $gap: 16px);
+}

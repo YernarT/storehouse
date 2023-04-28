@@ -1,4 +1,39 @@
-<template>
+// React
+import { useState } from 'react';
+
+// Hooks
+import { useRequest } from 'ahooks';
+// API
+import { API_GetAllTicket } from '@/service/ticket-api';
+
+// Custom component
+import { TicketCard } from '@/components/ticket';
+
+// Scoped style
+import classes from './style.module.scss';
+import { I_Ticket } from '@/def_types/ticket';
+
+export default function TicketPage() {
+	const [ticketList, setTicketList] = useState<I_Ticket[]>([]);
+
+	// fetch ticket list
+	useRequest(API_GetAllTicket, {
+		onSuccess(data) {
+			setTicketList(data);
+		},
+	});
+
+	return (
+		<main className={classes.ticketPage}>
+			{ticketList.map(ticket => (
+				<TicketCard key={ticket.id} ticket={ticket} />
+			))}
+		</main>
+	);
+}
+
+{
+	/* <template>
 	<div class="ticket-page">
 		<div v-show="!state.showScan" class="ticket-list">
 			<TicketCard
@@ -122,4 +157,5 @@ const handleBuy = (ticket: I_Ticket) => {
 		}
 	}
 }
-</style>
+</style> */
+}

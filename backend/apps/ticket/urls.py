@@ -1,7 +1,16 @@
 from django.urls import path
-from ticket.views import TicketView, UserTicketView
+from rest_framework import routers
+from django.conf import settings
 
-urlpatterns = [
-    path('ticket', TicketView.as_view()),
-    path('user-ticket', UserTicketView.as_view())
-]
+from ticket.views import TicketViewSet
+
+if settings.DEBUG:
+    router = routers.DefaultRouter()
+else:
+    router = routers.SimpleRouter()
+
+router.register(r'ticket', TicketViewSet)
+
+urlpatterns = router.urls
+
+app_name = 'ticket'
