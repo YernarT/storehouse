@@ -4,7 +4,7 @@ import type { API_LoginData } from '@/service/user-api';
 // Router
 import { useHistory, useLocation } from 'react-router-dom';
 // Recoil
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { A_User } from '@/store';
 
 // Hooks
@@ -24,7 +24,7 @@ export default function LoginPage() {
 	const { message: AntdMessage } = App.useApp();
 	const history = useHistory();
 	const { state: locationState } = useLocation();
-	const [user, setUser] = useRecoilState(A_User);
+	const setUser = useSetRecoilState(A_User);
 
 	const loginAsStaff = useCreation(() => {
 		// @ts-ignore
@@ -41,7 +41,7 @@ export default function LoginPage() {
 	}, [loginAsStaff]);
 
 	// Login API
-	const { runAsync } = useRequest(API_Login, { manual: true });
+	const { runAsync, loading } = useRequest(API_Login, { manual: true });
 	// Login logic
 	const onFinish = async (values: Omit<API_LoginData, 'isStaff'>) => {
 		const res = await runAsync({ ...values, isStaff: loginAsStaff }).catch(
@@ -90,7 +90,8 @@ export default function LoginPage() {
 						type="primary"
 						htmlType="submit"
 						size="large"
-						className="primary-btn">
+						className="primary-btn"
+						loading={loading}>
 						Кіру
 					</Button>
 				</Form.Item>
@@ -98,42 +99,3 @@ export default function LoginPage() {
 		</main>
 	);
 }
-
-// const route = useRoute();
-// const router = useRouter();
-// const { for: userType = 'user' } = route.query;
-
-// const user = useUserStore();
-
-// const formData = reactive({
-// 	login: '',
-// 	password: '',
-// });
-
-// const { runAsync } = useRequest(API_Login, {
-// 	manual: true,
-// });
-
-// const loginLabel = computed(() => {
-// 	if (userType === 'user') {
-// 		return 'Телефон нөмер';
-// 	}
-
-// 	return 'Қызметкер ID';
-// });
-
-// const handleLogin = () => {
-// 	runAsync({
-// 		...formData,
-// 		is_staff: userType !== 'user',
-// 	})
-// 		.then(({ data }) => {
-// 			user.setUser(data);
-// 			localStorage.set('user', user.toJson);
-// 			router.push('/ticket');
-// 		})
-// 		.catch(error => {
-// 			alert(error.message);
-// 		});
-// };
-// </script>
