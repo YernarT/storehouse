@@ -1,3 +1,6 @@
+// Types
+import { I_Ticket } from '@/def_types/ticket';
+
 // React
 import { useState } from 'react';
 
@@ -13,7 +16,7 @@ import { TicketCard } from '@/components/ticket';
 
 // Scoped style
 import classes from './style.module.scss';
-import { I_Ticket } from '@/def_types/ticket';
+
 
 export default function TicketPage() {
 	const [ticketList, setTicketList] = useState<I_Ticket[]>([]);
