@@ -18,7 +18,7 @@ SECRET_KEY = 'django-insecure-90@%epa7@f6%&nb-gmg96@c62%^!cshym)yuhdt!$szn0o-8du
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-APPEND_SLASH = True
+APPEND_SLASH = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -51,12 +51,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -138,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     # Custom catch API exception
     'EXCEPTION_HANDLER': 'utils.custom_exception.custom_exception_handler',
-    
+
     # Global authentication
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'utils.authentication.JWTAuthentication',
