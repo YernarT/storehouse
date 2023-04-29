@@ -26,7 +26,7 @@ export const S_UserIsAuthenticated = selector({
 	key: 'S_UserIsAuthenticated',
 	get({ get }) {
 		const user = get(A_User);
-		const hasToken = user.token !== defaultUserState.token;
+		const hasToken = user.token && user.token !== defaultUserState.token;
 
 		return hasToken;
 	},
