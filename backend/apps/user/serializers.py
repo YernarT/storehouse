@@ -9,13 +9,13 @@ from utils.custom_exception import CustomException
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(label='ID', read_only=True)
     fullname = serializers.CharField(
-        label='Аты-жөні', max_length=40, required=False, trim_whitespace=True, error_messages={
-            'max_length': 'Аты-жөні 40 таңбадан аспауы керек',
+        label='Аты-жөн', max_length=40, required=False, trim_whitespace=True, error_messages={
+            'max_length': 'Аты-жөн 40 таңбадан аспауы керек',
         })
     phone = serializers.CharField(label='Телефон нөмер', max_length=11, trim_whitespace=True, error_messages={
         'blank': 'Телефон нөмер бос болмауы керек',
         'required': 'Телефон нөмер бос болмауы керек',
-        'max_length': 'Телефон нөмер 11 таңбадан аспауы керек',
+        'max_length': 'Телефон нөмер 11 саннан құралу керек',
     })
     password = serializers.CharField(
         label='Құпиясөз', write_only=True, max_length=254, trim_whitespace=True, error_messages={
@@ -36,6 +36,7 @@ class UserSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     'Телефон нөмір тек сандардан құралу керек')
 
+        same_phone_user = None
         try:
             same_phone_user = User.objects.get(phone=value)
         except User.DoesNotExist:
@@ -49,6 +50,47 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = '__all__'
+
+
+class UpdateUserSerializer(serializers.ModelSerializer):
+    fullname = serializers.CharField(
+        label='Аты-жөн', max_length=40, trim_whitespace=True, error_messages={
+            'blank': 'Аты-жөн бос болмауы керек',
+            'required': 'Аты-жөн бос болмауы керек',
+            'max_length': 'Аты-жөн 40 таңбадан аспауы керек',
+        })
+    phone = serializers.CharField(label='Телефон нөмер', max_length=11, trim_whitespace=True, error_messages={
+        'blank': 'Телефон нөмер бос болмауы керек',
+        'required': 'Телефон нөмер бос болмауы керек',
+        'max_length': 'Телефон нөмер 11 саннан құралу керек',
+    })
+
+    def validate_phone(self, value):
+        """Телефон нөмерге тексеріс"""
+        for char in value:
+            if not char.isnumeric():
+                raise serializers.ValidationError(
+                    'Телефон нөмір тек сандардан құралу керек')
+
+        # phone number not changed
+        user = self.context.get('request').user
+        if value == user.phone:
+            return value
+        
+        same_phone_user = None
+        try:
+            same_phone_user = User.objects.get(phone=value)
+        except User.DoesNotExist:
+            pass
+
+        if same_phone_user:
+            raise serializers.ValidationError('Телефон нөмір тіркелген')
+
+        return super().validate(value)
+
+    class Meta:
+        model = User
+        fields = ['fullname', 'phone']
 
 
 class LoginSerializer(serializers.Serializer):

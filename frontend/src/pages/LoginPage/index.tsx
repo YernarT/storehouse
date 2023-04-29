@@ -72,7 +72,8 @@ export default function LoginPage() {
 					name="login"
 					rules={[
 						{ required: true, message: 'Міндетті өріс' },
-						{ max: 11, message: '11 таңбадан аспауы керек' },
+						{ min: 11, message: 'Телефон нөмер 11 саннан құралу керек' },
+						{ max: 11, message: 'Телефон нөмер 11 саннан құралу керек' },
 					]}>
 					<Input />
 				</Form.Item>
