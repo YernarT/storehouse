@@ -5,3 +5,7 @@ export {
 	defaultUserState,
 	S_UserIsAuthenticated,
 } from '@/store/user-atom';
+
+// Page Atoms
+export type { pageStateProperties } from '@/store/page-atom';
+export { A_Page, defaultPageState } from '@/store/page-atom';
