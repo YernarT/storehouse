@@ -1,8 +1,8 @@
 // Router
 import { useHistory, useLocation } from 'react-router-dom';
 // Recoil
-import { useRecoilValue } from 'recoil';
-import { A_User } from '@/store';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { A_User, A_Page } from '@/store';
 
 // Hooks
 import { useCreation, useMemoizedFn } from 'ahooks';
@@ -24,6 +24,7 @@ import routes from '@/routes';
 
 export default function SafeArea() {
 	const user = useRecoilValue(A_User);
+	const setPage = useSetRecoilState(A_Page);
 	const history = useHistory();
 	const location = useLocation();
 
@@ -46,6 +47,7 @@ export default function SafeArea() {
 
 	const handleFloatBtn = useMemoizedFn(() => {
 		if (user.isStaff) {
+			setPage(prevPage => ({ scannerIsVisible: !prevPage.scannerIsVisible }));
 			return;
 		}
 
