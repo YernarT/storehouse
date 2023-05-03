@@ -10,3 +10,11 @@ export interface API_BuyTicketData {
 
 export const API_BuyTicket = (data: API_BuyTicketData) =>
 	fetch.post<I_Ticket>('/user-ticket/', data);
+
+export interface API_CheckTicketData {
+	ticket: number;
+	buyer: number;
+}
+
+export const API_CheckTicket = (data: API_CheckTicketData) =>
+	fetch.post<I_Ticket>('/ticket/check', data);

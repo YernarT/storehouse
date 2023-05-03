@@ -8,12 +8,14 @@ import { useRecoilValue, useRecoilState } from 'recoil';
 import { A_User, A_Page } from '@/store';
 
 // Hooks
-import { useRequest } from 'ahooks';
+import { useRequest, useMemoizedFn } from 'ahooks';
 // API
-import { API_GetAllTicket } from '@/service/ticket-api';
+import { API_GetAllTicket, API_CheckTicket } from '@/service/ticket-api';
+// Utils
+import { isObject, has } from 'lodash';
 
 // Antd component
-import { Empty } from 'antd';
+import { Empty, App } from 'antd';
 // Custom component
 import { QRScan, TicketCard } from '@/components/ticket';
 
@@ -23,6 +25,7 @@ import classes from './style.module.scss';
 export default function TicketPage() {
 	const user = useRecoilValue(A_User);
 	const [page, setPage] = useRecoilState(A_Page);
+	const { message: AntdMessage } = App.useApp();
 	const [ticketList, setTicketList] = useState<I_Ticket[]>([]);
 
 	// fetch ticket list
@@ -30,6 +33,39 @@ export default function TicketPage() {
 		onSuccess(data) {
 			setTicketList(data);
 		},
+	});
+
+	// check ticket
+	const { runAsync: checkTicket } = useRequest(API_CheckTicket, {
+		manual: true,
+	});
+
+	const handleScan = useMemoizedFn((result: string) => {
+		AntdMessage.success('QR код анықталды');
+		AntdMessage.info('Билет тексерілуде...');
+		setPage({ scannerIsVisible: false });
+
+		try {
+			result = JSON.parse(result);
+		} catch (_) {
+			AntdMessage.error('QR код билет емес');
+			return;
+		}
+
+		console.log(result);
+
+		if (isObject(result) && has(result, 'ticket') && has(result, 'buyer')) {
+			checkTicket(result)
+				.then(data => {
+					console.log('data: ', data);
+				})
+				.catch(err => {
+					AntdMessage.error(err.message);
+					return;
+				});
+		}
+
+		AntdMessage.error('QR код билет емес');
 	});
 
 	return (
@@ -42,7 +78,8 @@ export default function TicketPage() {
 				<Empty description="Билет жоқ" />
 			)}
 
-			{user.isStaff && page.scannerIsVisible && <QRScan />}
+			{/* {user.isStaff && page.scannerIsVisible && <QRScan />} */}
+			{page.scannerIsVisible && <QRScan onResolve={handleScan} />}
 		</main>
 	);
 }
