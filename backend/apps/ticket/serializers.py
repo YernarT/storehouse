@@ -31,3 +31,22 @@ class TicketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ticket
         fields = '__all__'
+
+
+class CheckTiketSerializer(serializers.Serializer):
+    ticket = serializers.IntegerField(label='Билет ID', error_messages={
+        'blank': 'Билет ID бос болмауы керек',
+        'required': 'Билет ID бос болмауы керек',
+    })
+    buyer = serializers.IntegerField(label='Сатып алушы', error_messages={
+        'blank': 'Сатып алушы ID бос болмауы керек',
+        'required': 'Сатып алушы ID бос болмауы керек',
+    })
+
+    def is_this_user_ticket(self) -> bool:
+        try:
+            user_ticket = UserTicket.objects.get(buyer=self.buyer, ticket=self.ticket)
+        except UserTicket.DoesNotExist:
+            pass            
+
+        return False
