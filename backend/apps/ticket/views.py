@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from ticket.serializers import TicketSerializer, CheckTiketSerializer
+from ticket.serializers import TicketSerializer, CheckTiketSerializer, BuyTiketSerializer
 from ticket.models import Ticket, UserTicket
 
 from user.serializers import UserSerializer
@@ -41,3 +41,23 @@ class CheckTicketView(APIView):
         ticket['purchase_time'] = user_ticket.purchase_time
 
         return Response(data=ticket)
+
+
+class BuyTicketView(APIView):
+
+    authentication_classes = [LoginRequiredAuthentication]
+
+    def post(self, request):
+        serializer = BuyTiketSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.context['request'] = request
+
+        if not serializer.is_never_bought_this_ticket():
+            raise CustomException(message='Бұл билетті әлдеқашан сатып алдыңыз')
+
+        buyer = self.request.user
+        ticket_id = serializer.data.get('ticket')
+        ticket = Ticket.objects.get(id=ticket_id)
+        user_ticket = UserTicket.objects.create(ticket=ticket, buyer=buyer)
+        
+        return Response(data={})

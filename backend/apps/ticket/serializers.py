@@ -57,3 +57,21 @@ class CheckTiketSerializer(serializers.Serializer):
             return False          
 
         return True
+
+
+class BuyTiketSerializer(serializers.Serializer):
+    ticket = serializers.IntegerField(label='Билет ID', error_messages={
+        'blank': 'Билет ID бос болмауы керек',
+        'required': 'Билет ID бос болмауы керек',
+    })
+
+    def is_never_bought_this_ticket(self) -> bool:
+        ticket = self.data.get('ticket')
+        user = self.context.get('request').user
+
+        try:
+            user_ticket = UserTicket.objects.get(buyer=user, ticket=ticket)
+        except UserTicket.DoesNotExist:
+            return True          
+
+        return False
