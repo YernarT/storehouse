@@ -4,4 +4,5 @@ export interface I_Ticket {
 	isMine: boolean;
 	purchaseTime: Date;
 	expirationDate: Date;
+	totalSold?: number;
 }

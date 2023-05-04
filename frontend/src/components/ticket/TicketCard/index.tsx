@@ -1,6 +1,8 @@
 // Types
 import { I_Ticket } from '@/def_types/ticket';
 
+// React
+import { memo, useMemo } from 'react';
 // Recoil
 import { useRecoilValue } from 'recoil';
 import { A_User } from '@/store';
@@ -15,14 +17,23 @@ interface TicketCardProps {
 	ticket: I_Ticket;
 }
 
-export default function TicketCard({ ticket }: TicketCardProps) {
+export default memo(function TicketCard({ ticket }: TicketCardProps) {
 	const user = useRecoilValue(A_User);
-	console.log('ticket: ', ticket);
+
+	const qrCode = useMemo(() => {
+		const codeData = JSON.stringify({
+			ticket: ticket.id,
+			buyer: user.id
+		});
+
+		return `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${codeData}`;
+	}, [ticket])
 
 	return (
 		<div className={classes.ticketCard}>
 			<div className="body">
 				<div className="name">Билет: {ticket.name}</div>
+				{ticket.totalSold && <div className="name">Жалпы сатылды: {ticket.totalSold}</div>}
 			</div>
 
 			{!user.isStaff && (
@@ -34,47 +45,6 @@ export default function TicketCard({ ticket }: TicketCardProps) {
 					)}
 				</div>
 			)}
-
-			{/* <el-drawer v-model="isOpen" title="QR Code" direction="btt" size="50%">
-			<img :src="generateQR(ticket.id)" alt="QR Code" />
-		</el-drawer> */}
 		</div>
 	);
-}
-
-{
-	/* 
-
-// Hooks
-import { useRequest } from 'vue-hooks-plus';
-// Store
-import { useUserStore } from '@/store';
-// Service
-import { API_BuyTicket } from '@/service/ticket-api';
-// Components
-import Button from '@/components/Button/index.vue';
-
-const props = defineProps<{ ticket: I_Ticket }>();
-const emit = defineEmits(['buy']);
-const user = useUserStore();
-
-const isOpen = ref(false);
-
-const { runAsync } = useRequest(API_BuyTicket, {
-	manual: true,
 });
-
-const handleBuy = () => {
-	runAsync({ ticket: props.ticket.id })
-		.then(() => {
-			emit('buy', props.ticket);
-		})
-		.catch(error => {
-			alert(error.message);
-		});
-};
-
-const generateQR = (ticketId: number) =>
-	`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${ticketId}`;
-</script> */
-}

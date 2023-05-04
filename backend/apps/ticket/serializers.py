@@ -26,6 +26,10 @@ class TicketSerializer(serializers.ModelSerializer):
             else:
                 data['is_mine'] = False
 
+            # 添加管理员数据
+            if user.is_staff:
+                data['total_sold'] = UserTicket.objects.filter(ticket=instance).count()
+
         return data
 
     class Meta:
