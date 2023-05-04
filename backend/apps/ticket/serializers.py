@@ -44,9 +44,12 @@ class CheckTiketSerializer(serializers.Serializer):
     })
 
     def is_this_user_ticket(self) -> bool:
-        try:
-            user_ticket = UserTicket.objects.get(buyer=self.buyer, ticket=self.ticket)
-        except UserTicket.DoesNotExist:
-            pass            
+        buyer = self.data.get('buyer')
+        ticket = self.data.get('ticket')
 
-        return False
+        try:
+            user_ticket = UserTicket.objects.get(buyer=buyer, ticket=ticket)
+        except UserTicket.DoesNotExist:
+            return False          
+
+        return True
