@@ -23,7 +23,7 @@ export default function MyTicket() {
 	// fetch ticket list
 	useRequest(API_GetAllTicket, {
 		onSuccess(data) {
-			setTicketList(data);
+			setTicketList(data.filter(ticket=>ticket.isMine));
 		},
 	});
 
