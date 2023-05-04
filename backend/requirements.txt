@@ -1,0 +1,8 @@
+-i https://pypi.org/simple
+asgiref==3.6.0 ; python_version >= '3.7'
+django==3.2.8
+django-cors-headers==3.14.0
+djangorestframework==3.12.4
+pyjwt==2.6.0
+pytz==2023.3
+sqlparse==0.4.4 ; python_version >= '3.5'
