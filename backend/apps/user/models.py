@@ -24,7 +24,7 @@ class User(models.Model):
         if self.is_staff:
             return f'{self.phone} (қызметші)'
 
-        return f'{self.phone}'
+        return f'({self.id}) {self.phone}'
 
     @property
     def is_authenticated(self):
