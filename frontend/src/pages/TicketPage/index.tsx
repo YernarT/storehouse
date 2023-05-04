@@ -72,7 +72,7 @@ export default function TicketPage() {
 					if (new Date().getTime() > new Date(data.expirationDate).getTime()) {
 						AntdMessage.warning('Билет мерзімі өтіп кеткен');
 					} else {
-						setCheckedTicket(data);
+						setCheckedTicket(data as I_Ticket & { buyer: I_User });
 						setIsModalOpen(true);
 					}
 				})
@@ -92,11 +92,22 @@ export default function TicketPage() {
 		}
 	}, [page.scannerIsVisible])
 
+
+	const handleBuy = (ticketId: number) => {
+		setTicketList(prevList => prevList.map(ticket => {
+			if (ticket.id === ticketId) {
+				ticket.isMine = true;
+			}
+
+			return ticket;
+		}))
+	}
+
 	return (
 		<main className={classes.ticketPage}>
 			{!page.scannerIsVisible &&
 				ticketList.map(ticket => (
-					<TicketCard key={ticket.id} ticket={ticket} />
+					<TicketCard key={ticket.id} ticket={ticket} onBuy={handleBuy} />
 				))}
 			{!page.scannerIsVisible && ticketList.length === 0 && (
 				<Empty description="Билет жоқ" />

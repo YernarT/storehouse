@@ -9,7 +9,7 @@ export interface API_BuyTicketData {
 }
 
 export const API_BuyTicket = (data: API_BuyTicketData) =>
-	fetch.post<I_Ticket>('/user-ticket/', data);
+	fetch.post<I_Ticket>('/ticket/buy', data);
 
 export interface API_CheckTicketData {
 	ticket: number;
