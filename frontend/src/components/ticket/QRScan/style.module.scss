@@ -1,25 +1,16 @@
 @import '@/assets/style/mixins.scss';
 
 .scanner {
-	width: 100vw;
+	width: 100%;
 	height: 365px;
 	background: #d0d0d03a;
 
-	@include positioned($top: 0, $left: 0);
+	@include positioned($position: fixed, $top: 0, $left: 0);
 	@include flexCenter();
 
-	video {
-		width: 85vw;
+	:global #video {
+		width: 85%;
 		height: 285px;
-	}
-
-	:global .camera-list {
-		@include positioned($top: 100%, $left: 0);
-		@include flex($alignItems: center, $gap: 8px);
-
-		width: 100%;
-		padding: 8px;
-		border-bottom: 1px solid #eee;
-		overflow: auto hidden;
+		object-fit: cover;
 	}
 }
