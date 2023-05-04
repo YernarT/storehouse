@@ -34,9 +34,9 @@ export default function SafeArea() {
 	}, [location.pathname]);
 
 	const floatBtnIcon = useCreation(() => {
-		// if (user.isStaff) {
+		if (user.isStaff) {
 			return <MdOutlineQrCodeScanner />;
-		// }
+		}
 
 		if (location.pathname === '/profile') {
 			return <IoMdArrowRoundBack />;
@@ -46,10 +46,10 @@ export default function SafeArea() {
 	}, [user.isStaff, location.pathname]);
 
 	const handleFloatBtn = useMemoizedFn(() => {
-		// if (user.isStaff) {
+		if (user.isStaff) {
 			setPage(prevPage => ({ scannerIsVisible: !prevPage.scannerIsVisible }));
 			return;
-		// }
+		}
 
 		if (location.pathname === '/profile') {
 			history.goBack();

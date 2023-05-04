@@ -16,7 +16,7 @@ const routes: I_Route[] = [
 		path: '/ticket',
 		component: lazy(() => import('@/pages/TicketPage')),
 		fallback: <CommonSkeleton />,
-		auth: false,
+		auth: true,
 		exact: true,
 	},
 

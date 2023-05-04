@@ -41,18 +41,18 @@ export default function TicketPage() {
 	});
 
 	const handleScan = useMemoizedFn((result: string) => {
-		AntdMessage.success('QR код анықталды');
-		AntdMessage.info('Билет тексерілуде...');
+		AntdMessage.success('QR код анықталды', 0.5, () => {
+			AntdMessage.info('Билет тексерілуде...');
+		});
 		setPage({ scannerIsVisible: false });
 
 		try {
 			result = JSON.parse(result);
-		} catch (_) {
+		} catch (err) {
+			console.log(err);
 			AntdMessage.error('QR код билет емес');
 			return;
 		}
-
-		console.log(result);
 
 		if (isObject(result) && has(result, 'ticket') && has(result, 'buyer')) {
 			checkTicket(result)
@@ -61,8 +61,8 @@ export default function TicketPage() {
 				})
 				.catch(err => {
 					AntdMessage.error(err.message);
-					return;
-				});
+				})
+			return;
 		}
 
 		AntdMessage.error('QR код билет емес');
@@ -78,8 +78,7 @@ export default function TicketPage() {
 				<Empty description="Билет жоқ" />
 			)}
 
-			{/* {user.isStaff && page.scannerIsVisible && <QRScan />} */}
-			{page.scannerIsVisible && <QRScan onResolve={handleScan} />}
+			{user.isStaff && page.scannerIsVisible && <QRScan onResolve={handleScan} />}
 		</main>
 	);
 }
