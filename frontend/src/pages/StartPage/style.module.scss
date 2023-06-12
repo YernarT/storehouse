@@ -1,0 +1,30 @@
+@import "@/assets/style/mixins.scss";
+
+.startPage {
+  margin-top: 25%;
+  @include flex($direction: column, $alignItems: center);
+
+  :global .brand {
+    margin-bottom: 32px;
+    @include flex($direction: column, $alignItems: center, $gap: 8px);
+
+    :global .logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+
+    :global .title {
+      font-weight: 700;
+	  font-size: 16px;
+    }
+  }
+
+  :global .form {
+    width: 80%;
+
+    :global .primary-btn {
+      margin-top: 16px;
+    }
+  }
+}
