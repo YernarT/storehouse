@@ -64,7 +64,7 @@ export const localStorage: localStorageProperties = {
 		window.localStorage.setItem(key, serializedData);
 	},
 
-	_DATA_PREFIX: 'QR_Ticket',
+	_DATA_PREFIX: 'Storehouse',
 	_DATA_VERSION: '1.0.0',
 
 	get _VERSION_MARK_STRING() {
