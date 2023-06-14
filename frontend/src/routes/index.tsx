@@ -13,8 +13,8 @@ const routes: I_Route[] = [
   },
 
   {
-    path: "/ticket",
-    component: lazy(() => import("@/pages/TicketPage")),
+    path: "/main",
+    component: lazy(() => import("@/pages/MainPage")),
     fallback: <CommonSkeleton />,
     auth: true,
     exact: true,
