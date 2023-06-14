@@ -84,7 +84,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    login = serializers.CharField(
+    phone = serializers.CharField(
         label='Логин', max_length=11, trim_whitespace=True, error_messages={
             'blank': 'Телефон нөмір бос болмауы керек',
             'required': 'Телефон нөмір бос болмауы керек',
@@ -96,38 +96,18 @@ class LoginSerializer(serializers.Serializer):
             'required': 'Құпиясөз бос болмауы керек',
             'max_length': 'Құпиясөз 254 таңбадан аспауы керек',
         })
-    is_staff = serializers.BooleanField(label='Қызметші?', error_messages={
-        'invalid': 'is_staff өрісі boolean типте болуы керек',
-        'blank': 'is_staff өрісін толтыру міндетті',
-        'required': 'is_staff өрісін толтыру міндетті',
-    })
 
     def is_correct(self):
         """Жүйеге кіру деректерінің дұрыстығын тексеру"""
-        login = self.initial_data['login']
+        phone = self.initial_data['phone']
         password = self.initial_data['password']
-        is_staff = self.initial_data['is_staff']
 
-        if is_staff:
-            user_by_id = User.objects.filter(id=login).first()
-            user_by_phone = User.objects.filter(phone=login).first()
-            user = None
-
-            if user_by_id:
-                user = user_by_id
-            if user_by_phone:
-                user = user_by_phone
-
-            if user is None:
-                return CustomException(message='Жүйеге кіру сәтсіз аяқталды')
-        else:
-            try:
-                user = User.objects.get(phone=login)
-            except User.DoesNotExist:
-                user = User.objects.create(
-                    phone=login, password=password, is_staff=False)
+        try:
+            user = User.objects.get(phone=phone)
+        except User.DoesNotExist:
+            raise CustomException(message='Телефон нөмер тіркелмеген')
 
         if not check_password(password, user.password):
-            raise CustomException(message='Жүйеге кіру сәтсіз аяқталды')
+            raise CustomException(message='Құпиясөз қате')
 
         return user

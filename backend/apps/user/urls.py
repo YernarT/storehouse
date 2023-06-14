@@ -15,7 +15,7 @@ urlpatterns = router.urls
 
 urlpatterns += [
     # Login API
-    path('login', LoginAPIView.as_view()),
+    path('auth/login', LoginAPIView.as_view()),
 ]
 
 app_name = 'user'
