@@ -7,5 +7,5 @@ urlpatterns = [
     # user
     path('api/', include('user.urls')),
     # ticket
-    path('api/', include('ticket.urls')),
+    path('api/', include('item.urls')),
 ]
