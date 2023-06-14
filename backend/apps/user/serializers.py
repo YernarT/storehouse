@@ -8,10 +8,6 @@ from utils.custom_exception import CustomException
 
 class UserSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(label='ID', read_only=True)
-    fullname = serializers.CharField(
-        label='Аты-жөн', max_length=40, required=False, trim_whitespace=True, error_messages={
-            'max_length': 'Аты-жөн 40 таңбадан аспауы керек',
-        })
     phone = serializers.CharField(label='Телефон нөмер', max_length=11, trim_whitespace=True, error_messages={
         'blank': 'Телефон нөмер бос болмауы керек',
         'required': 'Телефон нөмер бос болмауы керек',
@@ -53,12 +49,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UpdateUserSerializer(serializers.ModelSerializer):
-    fullname = serializers.CharField(
-        label='Аты-жөн', max_length=40, trim_whitespace=True, error_messages={
-            'blank': 'Аты-жөн бос болмауы керек',
-            'required': 'Аты-жөн бос болмауы керек',
-            'max_length': 'Аты-жөн 40 таңбадан аспауы керек',
-        })
     phone = serializers.CharField(label='Телефон нөмер', max_length=11, trim_whitespace=True, error_messages={
         'blank': 'Телефон нөмер бос болмауы керек',
         'required': 'Телефон нөмер бос болмауы керек',
@@ -76,7 +66,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         user = self.context.get('request').user
         if value == user.phone:
             return value
-        
+
         same_phone_user = None
         try:
             same_phone_user = User.objects.get(phone=value)
@@ -90,7 +80,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['fullname', 'phone']
+        fields = ['phone']
 
 
 class LoginSerializer(serializers.Serializer):

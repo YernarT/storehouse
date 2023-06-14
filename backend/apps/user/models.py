@@ -8,8 +8,6 @@ class User(models.Model):
     '''User model'''
 
     phone = models.CharField(max_length=11, unique=True, verbose_name='Телефон нөмер')
-    fullname = models.CharField(
-        max_length=40, default='', blank=True, verbose_name='Аты-жөн')
     is_staff = models.BooleanField(verbose_name='Қызметші?')
     password = models.CharField(max_length=254, verbose_name='Құпиясөз')
     create_time = models.DateTimeField(
