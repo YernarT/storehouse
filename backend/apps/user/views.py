@@ -2,7 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from user.serializers import (UserSerializer, UpdateUserSerializer, LoginSerializer)
+from user.serializers import (
+    UserSerializer, UpdateUserSerializer, LoginSerializer)
 from user.models import User
 
 from utils.jwt import create_jwt
@@ -17,7 +18,7 @@ class UserViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'partial_update':
             return UpdateUserSerializer
-        
+
         return UserSerializer
 
     def get_serializer_context(self):
@@ -56,4 +57,4 @@ class LoginAPIView(APIView):
         data = UserSerializer(instance=user).data
         data['token'] = token
 
-        return Response(data)
+        return Response({'data': data})
