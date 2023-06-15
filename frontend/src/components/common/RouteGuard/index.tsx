@@ -8,7 +8,7 @@ import { useRecoilValue } from 'recoil';
 import { S_UserIsAuthenticated } from '@/store';
 
 // 登录页 路径
-const loginURL = '/login';
+const loginURL = '/';
 
 interface RouteGuradProps {
 	routes: I_Route[];
