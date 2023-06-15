@@ -24,7 +24,7 @@ class ResponseFormatMiddleware:
                 self.response_template['is_ok'] = False
                 self.response_template = { **self.response_template, **response.data }
             else:
-                self.response_template['data'] = response.data['data']
+                self.response_template = { **self.response_template, **response.data }
         # Django Level Error
         else:
             self.response_template['is_ok'] = False
