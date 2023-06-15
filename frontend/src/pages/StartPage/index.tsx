@@ -35,9 +35,9 @@ export default function StartPage() {
 
     if (res) {
       AntdMessage.success("Кіру сәтті");
-      localStorage.set("user", res);
-      setUser(res);
-      history.push("/ticket");
+      localStorage.set("user", res.data);
+      setUser(res.data);
+      history.push("/main");
     }
   };
 
@@ -56,7 +56,7 @@ export default function StartPage() {
       >
         <Form.Item
           label="Телефон нөмер"
-          name="login"
+          name="phone"
           rules={[
             { required: true, message: "Міндетті өріс" },
             { min: 11, message: "Телефон нөмер 11 саннан құралу керек" },
