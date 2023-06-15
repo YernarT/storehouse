@@ -30,7 +30,7 @@ def custom_exception_handler(exc, context):
         return Response(data={'message': 'Деректер заңды json формат емес'}, status=HTTP_400_BAD_REQUEST)
 
     if isinstance(exc, PermissionDenied):
-        exc = PermissionDenied(detail='Рұқсаттар жеткіліксіз')
+        exc = PermissionDenied(detail='Рұқсат жеткіліксіз')
 
     if isinstance(exc, Throttled):
         headers = {
