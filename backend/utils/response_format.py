@@ -19,6 +19,8 @@ class ResponseFormatMiddleware:
                 response_template['is_ok'] = False
                 response_template = { **response_template, **response.data }
             else:
+                if not isinstance(response.data, dict):
+                    response.data = { 'data': response.data }
                 response_template = { **response_template, **response.data }
         # Django Level Error
         else:
