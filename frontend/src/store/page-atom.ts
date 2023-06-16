@@ -1,14 +1,14 @@
-import { atom } from 'recoil';
+import { atom } from "recoil";
 
 export interface pageStateProperties {
-	scannerIsVisible: boolean;
+  userDrawerIsOpen: boolean;
 }
 
 export const defaultPageState: pageStateProperties = {
-	scannerIsVisible: false,
+  userDrawerIsOpen: false,
 };
 
 export const A_Page = atom({
-	key: 'A_Page',
-	default: defaultPageState,
+  key: "A_Page",
+  default: defaultPageState,
 });
