@@ -26,7 +26,7 @@ export default function UserDrawer() {
   });
   const touchhandler = useMemoizedFn((e: TouchEvent) => {
     const currentTouchX = e.touches[0].clientX;
-    const distance = 200;
+    const distance = 100;
 
     if (state.toucheX !== null && currentTouchX - state.toucheX > distance) {
       setPage((prevState) => ({ ...prevState, userDrawerIsOpen: true }));
