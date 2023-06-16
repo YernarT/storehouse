@@ -1,0 +1,24 @@
+@import "@/assets/style/mixins.scss";
+
+.mainHeader {
+  width: 100%;
+  @include flex($alignItems: center, $gap: 16px);
+
+  :global .burger-icon {
+    @include svgStyle($size: 24px);
+  }
+
+  :global .search {
+    flex-grow: 1;
+
+    &,
+    :global .ant-input,
+    :global .ant-btn {
+      height: 32px;
+    }
+
+    svg {
+      @include svgStyle($size: 14px);
+    }
+  }
+}
