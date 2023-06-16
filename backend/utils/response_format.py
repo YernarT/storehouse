@@ -1,4 +1,5 @@
-from django.http.response import JsonResponse
+from django.http.response import JsonResponse, HttpResponseRedirect
+from django.template.response import TemplateResponse
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK,HTTP_201_CREATED,HTTP_202_ACCEPTED,HTTP_204_NO_CONTENT, HTTP_404_NOT_FOUND
 
@@ -22,13 +23,17 @@ class ResponseFormatMiddleware:
                 if not isinstance(response.data, dict):
                     response.data = { 'data': response.data }
                 response_template = { **response_template, **response.data }
+        elif isinstance(response, (TemplateResponse, HttpResponseRedirect)):
+            return response
         # Django Level Error
         else:
             response_template['is_ok'] = False
             # 404
             if response.status_code == HTTP_404_NOT_FOUND:
                 response_template['message'] = 'Ресурс жоқ'
+            # 500
             else:
+                print(response)
                 response_template['message'] = 'Серверлік ерекше жағдай'
             
         return JsonResponse(data=response_template, status=response.status_code)

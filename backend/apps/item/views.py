@@ -2,8 +2,8 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from item.serializers import ItemSerializer
 from item.models import Item, Tag, ItemTag
+from item.serializers import ItemSerializer, TagSerializer
 
 from user.serializers import UserSerializer
 
@@ -17,3 +17,11 @@ class ItemViewSet(ModelViewSet):
     """
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+
+
+class TagViewSet(ModelViewSet):
+    """
+    Tag API 
+    """
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
