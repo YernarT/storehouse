@@ -1,13 +1,36 @@
-@import '@/assets/style/mixins.scss';
+@import "@/assets/style/mixins.scss";
 
 .mainPage {
-	padding: 16px;
-	padding-bottom: calc(64px + 32px);
+  padding: 16px;
+  padding-bottom: calc(64px + 32px);
+  @include flex($direction: column, $gap: 16px);
 
-	@include flex($direction: column, $gap: 16px);
+  :global .sort {
+    width: 100%;
+    @include flex($gap: 16px);
 
-	:global .ant-empty {
-		width: 100%;
-		margin: auto;
-	}
+    :global .item {
+      flex: 1 1 50%;
+      padding: 4px 8px;
+      @include flex($alignItems: center);
+
+      :global .label {
+        margin: 0 6px;
+        font-size: 12px;
+      }
+
+      svg {
+        @include svgStyle();
+
+        &:last-child {
+          margin-left: auto;
+        }
+      }
+    }
+  }
+
+  :global .ant-empty {
+    width: 100%;
+    margin: auto;
+  }
 }
