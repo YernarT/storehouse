@@ -10,7 +10,8 @@ import { useCreation, useMemoizedFn } from "ahooks";
 // Antd component
 import { Button } from "antd";
 // Custom component
-import { RouteGuard, UserDrawer } from "@/components/common";
+import { RouteGuard } from "@/components/common";
+import { UserDrawer } from "@/components/user";
 // Icons
 import { AiOutlinePlus } from "react-icons/ai";
 
@@ -28,8 +29,8 @@ export default function SafeArea() {
   const location = useLocation();
 
   const showFloatBtn = useCreation(() => {
-    const disabledPages = ["/"];
-    return !disabledPages.includes(location.pathname);
+    const allowedPages = ["/main"];
+    return allowedPages.includes(location.pathname);
   }, [location.pathname]);
 
   const handleFloatBtn = useMemoizedFn(() => {
