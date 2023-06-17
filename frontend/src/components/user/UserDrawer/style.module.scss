@@ -1,0 +1,17 @@
+@import "@/assets/style/mixins.scss";
+
+.userDrawer {
+  :global .head {
+    @include flex($alignItems: center, $gap: 8px);
+
+    :global .avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+    }
+
+    :global .phone {
+      font-weight: 700;
+    }
+  }
+}

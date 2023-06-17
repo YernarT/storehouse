@@ -5,8 +5,8 @@ import { A_User, A_Page } from "@/store";
 // Hooks
 import { useSetState, useEventListener, useMemoizedFn } from "ahooks";
 
-// Antd component
-import {} from "antd";
+// Custom component
+import { Drawer } from "@/components/common";
 // Icons
 import { AiOutlineUser } from "react-icons/ai";
 
@@ -42,31 +42,26 @@ export default function UserDrawer() {
   });
 
   return (
-    <div
-      className={`${classes.userDrawer} ${
-        page.userDrawerIsOpen && classes.userDrawerOpened
-      }`}
+    <Drawer
+      open={page.userDrawerIsOpen}
+      onClose={() =>
+        setPage((prevState) => ({ ...prevState, userDrawerIsOpen: false }))
+      }
     >
-      <div
-        className="mask"
-        onClick={() =>
-          setPage((prevState) => ({ ...prevState, userDrawerIsOpen: false }))
-        }
-      />
-      <div className="body">
+      <div className={classes.userDrawer}>
         <div className="head">
           <AiOutlineUser className="avatar" />
           <span className="phone">{user.phone}</span>
         </div>
+      </div>
 
-        {/* @TODO:
+      {/* @TODO:
             1. Profile
             2. Settings
             3. About
             4. 意见箱
             5. Logout
         */}
-      </div>
-    </div>
+    </Drawer>
   );
 }
