@@ -1,5 +1,5 @@
 // Types
-import { I_Ticket } from '@/def_types/ticket';
+import { I_Ticket } from '@/def_types/item';
 
 // React
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import { useState } from 'react';
 // Hooks
 import { useRequest } from 'ahooks';
 // API
-import { API_GetAllTicket } from '@/service/ticket-api';
+import { API_GetAllTicket } from '@/service/item-api';
 
 // Antd component
 import { Empty } from 'antd';
