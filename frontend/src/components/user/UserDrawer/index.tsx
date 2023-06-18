@@ -1,26 +1,34 @@
+// Router
+import { useHistory } from "react-router-dom";
 // Recoil
-import { useRecoilValue, useRecoilState } from "recoil";
-import { A_User, A_Page } from "@/store";
+import { useRecoilState } from "recoil";
+import { A_User, A_Page, defaultUserState } from "@/store";
 
 // Hooks
 import { useSetState, useEventListener, useMemoizedFn } from "ahooks";
+// Utils
+import { localStorage } from "@/utils";
 
-// Custom component
-import { Drawer } from "@/components/common";
+// Antd component
+import { Button } from "antd";
 // Icons
 import { AiOutlineUser } from "react-icons/ai";
+// Custom component
+import { Drawer } from "@/components/common";
 
 // Scoped style
 import classes from "./style.module.scss";
 
 export default function UserDrawer() {
-  const user = useRecoilValue(A_User);
+  const history = useHistory();
+  const [user, setUser] = useRecoilState(A_User);
   const [page, setPage] = useRecoilState(A_Page);
 
   const [state, setState] = useSetState({
     toucheX: null as number | null,
   });
 
+  // 滑动打开 drawer
   useEventListener("touchstart", (e) => {
     setState({ toucheX: e.touches[0].clientX });
   });
@@ -41,6 +49,14 @@ export default function UserDrawer() {
     setState({ toucheX: null });
   });
 
+  // 退出登录
+  const handleLogout = () => {
+    localStorage.set("user", defaultUserState);
+    setPage((prevState) => ({ ...prevState, userDrawerIsOpen: false }));
+    setUser(defaultUserState);
+    history.push("/");
+  };
+
   return (
     <Drawer
       open={page.userDrawerIsOpen}
@@ -53,15 +69,21 @@ export default function UserDrawer() {
           <AiOutlineUser className="avatar" />
           <span className="phone">{user.phone}</span>
         </div>
-      </div>
 
-      {/* @TODO:
+        {/* <div className="body">TODO</div> */}
+        {/* @TODO:
             1. Profile
             2. Settings
             3. About
             4. 意见箱
-            5. Logout
         */}
+
+        <div className="content">
+          <Button block danger className="logout" onClick={handleLogout}>
+            Шығу
+          </Button>
+        </div>
+      </div>
     </Drawer>
   );
 }

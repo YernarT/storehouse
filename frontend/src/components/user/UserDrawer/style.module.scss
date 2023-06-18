@@ -1,6 +1,10 @@
 @import "@/assets/style/mixins.scss";
 
 .userDrawer {
+  width: 100%;
+  height: 100%;
+  @include flex($direction: column);
+
   :global .head {
     @include flex($alignItems: center, $gap: 8px);
 
@@ -12,6 +16,16 @@
 
     :global .phone {
       font-weight: 700;
+    }
+  }
+
+  :global .content {
+    width: 100%;
+    flex: 1 1 auto;
+    @include flex($direction: column);
+
+    :global .logout {
+      margin-top: auto;
     }
   }
 }
