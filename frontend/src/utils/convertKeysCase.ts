@@ -1,24 +1,28 @@
-import _ from 'lodash';
+import _ from "lodash";
 
 export function convertKeysCase(
-	object: object,
-	case_: 'camel' | 'snake',
+  object: object,
+  case_: "camel" | "snake"
 ): object {
-	if (Array.isArray(object)) {
-		return object.map(item => convertKeysCase(item, case_));
-	}
+  if (Array.isArray(object)) {
+    return object.map((item) => convertKeysCase(item, case_));
+  }
 
-	const newObj = {};
+  if (!_.isNumber(object)) {
+    const newObj = {};
 
-	_.forEach(object, (value, key) => {
-		if (_.isObject(value)) {
-			// @ts-ignore
-			newObj[_[`${case_}Case`](key)] = convertKeysCase(value, case_);
-		} else {
-			// @ts-ignore
-			newObj[_[`${case_}Case`](key)] = value;
-		}
-	});
+    _.forEach(object, (value, key) => {
+      if (_.isObject(value)) {
+        // @ts-ignore
+        newObj[_[`${case_}Case`](key)] = convertKeysCase(value, case_);
+      } else {
+        // @ts-ignore
+        newObj[_[`${case_}Case`](key)] = value;
+      }
+    });
 
-	return newObj;
+    return newObj;
+  }
+
+  return object;
 }
