@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from item.models import Item, Tag
+from item.models import Item, Tag, ItemTag
 from user.models import User
 
 from utils.custom_exception import CustomException
@@ -14,30 +14,18 @@ class ItemSerializer(serializers.ModelSerializer):
     })
     expiration_date = serializers.DateTimeField(label='Мерзімнің өту күні')
 
-    # def to_representation(self, instance):
-    #     data = super().to_representation(instance)
-    #     user = self.context.get('request').user
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        user = self.context.get('request').user
 
-    #     if user.is_authenticated:
-    #         user_ticket = UserTicket.objects.filter(
-    #             buyer=user, ticket=instance).first()
-    #         if user_ticket:
-    #             data['is_mine'] = True
-    #             data['purchase_time'] = user_ticket.purchase_time
-    #         else:
-    #             data['is_mine'] = False
+        print('user: ', user, user.is_authenticated)
+        print('data: ', data)
 
-    #         # 添加管理员数据
-    #         if user.is_staff:
-    #             data['total_sold'] = UserTicket.objects.filter(ticket=instance).count()
-
-    #     return data
+        return data
 
     class Meta:
         model = Item
         fields = '__all__'
-
-
 
 
 class TagSerializer(serializers.ModelSerializer):
@@ -57,16 +45,30 @@ class TagSerializer(serializers.ModelSerializer):
         'required': 'Фон түсі түсі бос болмауы керек',
         'max_length': 'Фон түсі түсі 22 таңбадан аспауы керек',
     })
-    creator = serializers.PrimaryKeyRelatedField(label='Құрушысы', queryset=User.objects.all(), write_only=True)
 
     def validated_color(self, value):
         print('color: ', value)
         return super().validate(value)
-    
+
     def validated_background_color(self, value):
         print('background_color: ', value)
         return super().validate(value)
 
+    def create(self, validated_data):
+        return super().create({**validated_data, 'creator': self.context['request'].user})
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        associated_items = ItemTag.objects.filter(tag=instance).all()
+        data['associated_items'] = list(
+            map(lambda ai: ai.id, associated_items))
+
+        return data
+
     class Meta:
         model = Tag
-        fields = '__all__'
+        exclude = ['creator']
+
+
+class DeleteTagSerialzier(serializers.Serializer):
+    ids = serializers.ListField(min_length=1, child=serializers.IntegerField())
