@@ -73,6 +73,16 @@ export default function TagPage() {
     fetchTagList();
   });
 
+  // 全部 tag 被使用的次数
+  const useageCountAllTag = useCreation(
+    () =>
+      state.tagList.reduce(
+        (prevCount, tag) => prevCount + tag.associatedItems.length,
+        0
+      ),
+    [state.tagList]
+  );
+
   const changeTagCheckedState = (targetTagId: number, value: boolean) => {
     setState((prevState) => {
       const newTagList = prevState.tagList.map((tag) => {
@@ -132,7 +142,7 @@ export default function TagPage() {
             onChange={(e) => changeAllCheckedState(e.target.checked)}
           />
           <span className="name">Бәрі</span>
-          <span className="count">{state.tagList.length}</span>
+          <span className="count">{useageCountAllTag}</span>
         </div>
 
         {state.tagList.map((tag) => (
