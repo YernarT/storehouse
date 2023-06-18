@@ -21,6 +21,14 @@ const routes: I_Route[] = [
   },
 
   {
+    path: "/tag",
+    component: lazy(() => import("@/pages/TagPage")),
+    fallback: <CommonSkeleton />,
+    auth: true,
+    exact: true,
+  },
+
+  {
     path: "/profile",
     component: lazy(() => import("@/pages/ProfilePage")),
     fallback: <CommonSkeleton />,

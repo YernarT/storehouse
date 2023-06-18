@@ -1,0 +1,60 @@
+@import "@/assets/style/mixins.scss";
+
+.tagPage {
+  @include flex($direction: column);
+
+  :global .bottom-bar {
+    width: 100%;
+    border-top: 1px solid var(--c-border);
+    padding: 16px 0;
+    margin-top: auto;
+    @include flex($justifyContent: center, $alignItems: center, $gap: 16px);
+
+    :global .item {
+      flex: 0 0 24%;
+      padding: 4px 2px;
+      @include flex($direction: column, $alignItems: center, $gap: 4px);
+
+      svg {
+        @include svgStyle(24px);
+      }
+
+      span {
+        font-weight: 700;
+      }
+    }
+  }
+}
+
+.tagList {
+  width: 100%;
+  padding: 16px;
+  max-height: calc(100% - 56px - 91px);
+  overflow: auto;
+  @include flex($direction: column, $gap: 16px);
+
+  :global .item {
+    width: 100%;
+    padding: 4px 8px;
+    color: var(--color);
+    border: 1px solid var(--c-border);
+    border-radius: var(--border-radius);
+    background: var(--background-color);
+    @include flex($alignItems: center, $gap: 8px);
+
+    :global .ant-checkbox-wrapper {
+      flex: 0 0 auto;
+      zoom: 120%;
+    }
+
+    :global .name {
+      flex: 1 1 auto;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    :global .count {
+      flex: 0 0 auto;
+    }
+  }
+}
