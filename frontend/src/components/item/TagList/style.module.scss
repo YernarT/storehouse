@@ -1,0 +1,30 @@
+@import "@/assets/style/mixins.scss";
+
+.tagList {
+  width: 100%;
+  max-height: calc(32px * 2 + 8px);
+  overflow: auto;
+  @include flex($alignItems: center, $gap: 8px, $flexWrap: wrap);
+  @include useScroll($type: none);
+
+  :global .all-tag {
+    padding: 2px 6px;
+    @include flexCenter();
+
+    svg {
+      @include svgStyle();
+    }
+  }
+
+  :global .all-filter,
+  :global .untaged {
+    font-size: 12px;
+  }
+}
+
+.tag {
+  font-size: 12px;
+  color: var(--color);
+  border: none;
+  background: var(--background-color);
+}

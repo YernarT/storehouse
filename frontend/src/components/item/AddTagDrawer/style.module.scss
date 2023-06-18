@@ -1,0 +1,66 @@
+@import "@/assets/style/mixins.scss";
+
+.addTagDrawer {
+  width: 100%;
+  @include flex($direction: column, $gap: 16px);
+
+  :global .title {
+    width: 100%;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  :global .tag-name {
+    color: var(--color);
+    background: var(--background-color);
+  }
+
+  :global .pick-color {
+    width: 100%;
+    @include flex($gap: 8px);
+
+    :global .item {
+      width: 100%;
+      flex: 1 1 50%;
+      @include flex($alignItems: center, $gap: 4px);
+
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+
+  :global .recommend-colors {
+    width: 100%;
+    @include flex($direction: column, $gap: 8px);
+
+    :global .title {
+      text-align: left;
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    :global .list {
+      @include flex($alignItems: center, $gap: 8px, $flexWrap: wrap);
+
+      :global .item {
+        font-size: 12px;
+        color: var(--color);
+        padding: 2px 6px;
+        border: 1px solid var(--c-border);
+        border-radius: var(--border-radius);
+        background: var(--background-color);
+      }
+    }
+  }
+
+  :global .actions {
+    width: 100%;
+    @include flex($gap: 8px);
+
+    & > * {
+      flex: 1 1 50%;
+    }
+  }
+}
