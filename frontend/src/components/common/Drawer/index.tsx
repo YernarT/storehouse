@@ -17,8 +17,14 @@ export default function Drawer({
 }: DrawerProps) {
   return (
     <div className={`${classes.drawer} ${open && classes.drawerOpened}`}>
-      <div className="mask" onClick={onClose} />
-      <div className={`body body--${placement}`}>{children}</div>
+      <div className={classes.drawerMask} onClick={onClose} />
+      <div
+        className={`${classes.drawerBody} ${
+          classes[`drawerBody--${placement}`]
+        }`}
+      >
+        {children}
+      </div>
     </div>
   );
 }
