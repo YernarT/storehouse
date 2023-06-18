@@ -20,3 +20,7 @@ export interface I_Tag {
   color: string;
   backgroundColor: string;
 }
+
+export interface I_TagWithDetail extends I_Tag {
+  associatedItems: I_Item["id"][];
+}
