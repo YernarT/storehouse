@@ -3,32 +3,32 @@
  */
 
 * {
-	/* smooth scroll */
-	scroll-behavior: smooth;
-	/* remove spacing */
-	margin: 0;
-	padding: 0;
-	/* reset typography */
-	font: inherit;
-	/* box model */
-	box-sizing: border-box;
+  /* smooth scroll */
+  scroll-behavior: smooth;
+  /* remove spacing */
+  margin: 0;
+  padding: 0;
+  /* reset typography */
+  font: inherit;
+  /* box model */
+  box-sizing: border-box;
 }
 
 html,
 body {
-	/* Background of :active triggered by the click event on the mobile terminal */
-	-webkit-tap-highlight-color: transparent;
+  /* Background of :active triggered by the click event on the mobile terminal */
+  -webkit-tap-highlight-color: transparent;
 
-	/* Global fonts */
-	font-family: 'Roboto', sans-serif;
-	font-size: 20px;
-	font-weight: 400;
-	font-display: swap;
-	color: var(--c-text);
+  /* Global fonts */
+  font-family: "Roboto", sans-serif;
+  font-size: 20px;
+  font-weight: 400;
+  font-display: swap;
+  color: var(--c-text);
 }
 
-[class*='ant'] {
-	/* Global fonts */
-	font-family: 'Roboto', sans-serif;
-	font-display: swap;
+[class*="ant"] {
+  /* Global fonts */
+  font-family: "Roboto", sans-serif;
+  font-display: swap;
 }
