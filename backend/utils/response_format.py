@@ -13,19 +13,32 @@ class ResponseFormatMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
         response_template = self.response_template
-
-        # DRF Level Error
+    
+        # [DRF] Error
         if isinstance(response, Response):
             if response.status_code not in (HTTP_200_OK, HTTP_201_CREATED, HTTP_202_ACCEPTED, HTTP_204_NO_CONTENT):
                 response_template['is_ok'] = False
                 response_template = { **response_template, **response.data }
+            # [DRF] Success
             else:
-                if not isinstance(response.data, dict):
+                '''
+                DRF 返回数据的格式: { ... } 或 [ ... ]
+                自定义返回的格式: { data: ..., Formatted: 非None值 }
+                最终返回的格式: { data: ..., ... }
+                **response_template**
+                '''
+
+                if isinstance(response.data, dict) and response.data.get('Formatted') is None:
                     response.data = { 'data': response.data }
+                elif not isinstance(response.data, dict):
+                    response.data = { 'data': response.data }
+
+                # 合并数据, 组成模板返回
                 response_template = { **response_template, **response.data }
+        # [Django] Success
         elif isinstance(response, (TemplateResponse, HttpResponseRedirect)):
             return response
-        # Django Level Error
+        # [Django] Error
         else:
             response_template['is_ok'] = False
             # 404

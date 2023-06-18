@@ -57,4 +57,4 @@ class LoginAPIView(APIView):
         data = UserSerializer(instance=user).data
         data['token'] = token
 
-        return Response({'data': data})
+        return Response({'data': data, 'Formatted': 1})
