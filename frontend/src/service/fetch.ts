@@ -27,11 +27,11 @@ function requestWithData(method: "POST" | "PATCH" | "PUT" | "DELETE") {
 
     const response = await fetch(url, {
       method,
-      body: JSON.stringify(data),
       headers: {
         Authorization: token,
         "Content-Type": "application/json",
       },
+      body: JSON.stringify(data),
     }).catch(() => {
       return { isSuccess: false, message: "Сервер уақытша жабық" };
     });
