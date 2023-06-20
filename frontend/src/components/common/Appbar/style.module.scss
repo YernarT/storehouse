@@ -15,6 +15,11 @@
     margin: 0 auto;
     font-size: 20px;
     font-weight: 700;
+
+    &--offset {
+      position: relative;
+      left: -8px;
+    }
   }
 
   :global .actions {

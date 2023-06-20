@@ -22,7 +22,9 @@ export default function Appbar({ title, actions }: AppbarProps) {
   return (
     <nav className={classes.appbar}>
       <IoArrowBackOutline className="back-icon" onClick={history.goBack} />
-      <h3 className="title">{title}</h3>
+      <h3 className={`title ${actions === undefined && "title--offset"}`}>
+        {title}
+      </h3>
       <div className="actions">{actions}</div>
     </nav>
   );
