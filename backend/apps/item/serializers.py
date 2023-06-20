@@ -7,10 +7,10 @@ from utils.custom_exception import CustomException
 
 class ItemSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(label='ID', read_only=True)
-    name = serializers.CharField(label='Билет атауы', max_length=40, trim_whitespace=True, error_messages={
-        'blank': 'Билет атауы бос болмауы керек',
-        'required': 'Билет атауы бос болмауы керек',
-        'max_length': 'Билет атауы 40 таңбадан аспауы керек',
+    name = serializers.CharField(label='Зат атауы', max_length=30, trim_whitespace=True, error_messages={
+        'blank': 'Зат атауы бос болмауы керек',
+        'required': 'Зат атауы бос болмауы керек',
+        'max_length': 'Зат атауы 30 таңбадан аспауы керек',
     })
     expiration_date = serializers.DateTimeField(label='Мерзімнің өту күні')
 

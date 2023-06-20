@@ -3,18 +3,20 @@ from django.db import models
 
 class Item(models.Model):
     '''Зат'''
-    name = models.CharField(max_length=30, verbose_name='Атауы')
-    description = models.CharField(max_length=254, verbose_name='Атауы')
-    quantity = models.PositiveIntegerField(verbose_name='Саны')
-    production_date = models.DateTimeField(verbose_name='Өндірілген күні')
-    expiration_date = models.DateTimeField(verbose_name='Мерзімнің өту күні')
+    name = models.CharField(max_length=30, verbose_name='Атау')
+    description = models.CharField(max_length=254, null=True, blank=True, verbose_name='Сипаттама')
+    image = models.FileField(upload_to='item/image/',
+                             null=True, blank=True, verbose_name='Сурет')
+    quantity = models.PositiveIntegerField(null=True, blank=True, verbose_name='Саны')
+    production_date = models.DateTimeField(null=True, blank=True, verbose_name='Өндірілген күн')
+    expiration_date = models.DateTimeField(verbose_name='Мерзімнің өту күн')
     owner = models.ForeignKey(
         to='user.User', on_delete=models.CASCADE, verbose_name='Иесі')
-    supplier = models.CharField(max_length=60, verbose_name='Жеткізуші')
+    supplier = models.CharField(null=True, blank=True, max_length=60, verbose_name='Жеткізуші')
     purchase_price = models.PositiveIntegerField(
-        verbose_name='Сатып алынған бағасы')
-    selling_price = models.PositiveIntegerField(verbose_name='Сату бағасы')
-    shelf_position = models.CharField(max_length=60, verbose_name='Жеткізуші')
+        null=True, blank=True, verbose_name='Сатып алынған баға')
+    selling_price = models.PositiveIntegerField(verbose_name='Сату баға')
+    shelf_position = models.CharField(null=True, blank=True, max_length=60, verbose_name='Сөренің орны')
 
     class Meta:
         db_table = 'item'
@@ -27,7 +29,7 @@ class Item(models.Model):
 
 class Tag(models.Model):
     '''Тег'''
-    name = models.CharField(max_length=12, verbose_name='Атауы')
+    name = models.CharField(max_length=12, verbose_name='Атау')
     color = models.CharField(max_length=22, verbose_name='Шрифт түсі')
     background_color = models.CharField(max_length=22, verbose_name='Фон түсі')
     creator = models.ForeignKey(
