@@ -16,8 +16,8 @@ def custom_exception_handler(exc, context):
       'args': (), 'kwargs': {},
       'request': <rest_framework.request.Request: POST '/api/somethings/'> }
     """
-
-    # print('custom exception handler\nerror detail: \n', exc.detail, '\n\n')
+    
+    print('custom exception handler\nerror detail: \n', getattr(exc, 'detail', 'no detail'), '\n\n')
 
     # деректері кері қайтару
     set_rollback()
