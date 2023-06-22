@@ -44,10 +44,12 @@ class ResponseFormatMiddleware:
             # 404
             if response.status_code == HTTP_404_NOT_FOUND:
                 response_template['message'] = 'Ресурс жоқ'
-            # 500
-            else:
-                print(response)
+            # 500 +
+            elif int(response.status_code) >= 500:
                 response_template['message'] = 'Серверлік ерекше жағдай'
+            # 静态文件访问
+            else:
+                return response
             
         return JsonResponse(data=response_template, status=response.status_code)
 
