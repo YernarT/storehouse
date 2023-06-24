@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.parsers import  MultiPartParser, JSONParser
 
 from item.models import Item, Tag, ItemTag
 from item.serializers import ItemSerializer, TagSerializer, DeleteTagSerialzier
@@ -17,6 +17,8 @@ class ItemViewSet(ModelViewSet):
     """
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
+    parser_classes = [MultiPartParser, JSONParser]
+    authentication_classes = [LoginRequiredAuthentication]
 
 
 class TagViewSet(ModelViewSet):
