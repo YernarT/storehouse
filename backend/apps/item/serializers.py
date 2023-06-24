@@ -3,6 +3,17 @@ from item.models import Item, Tag, ItemTag
 from user.models import User
 
 from utils.custom_exception import CustomException
+from utils.is_valid_datetime import is_valid_datetime
+
+
+def validate_datetime_format(value):
+    is_valid, value = is_valid_datetime(value.strip('"'), '%Y-%m-%d %H:%M:%S')
+
+    if not is_valid:
+        raise CustomException(
+            'Уақыт форматы дұрыс емес, болу керек: YYYY-MM-DD hh:mm:ss')
+
+    return value
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -12,20 +23,29 @@ class ItemSerializer(serializers.ModelSerializer):
         'required': 'Зат атауы бос болмауы керек',
         'max_length': 'Зат атауы 30 таңбадан аспауы керек',
     })
-    expiration_date = serializers.DateTimeField(label='Мерзімнің өту күні')
+    production_date = serializers.CharField(
+        label='Өндірілген күн', max_length=30, required=False, allow_null=True)
+    expiration_date = serializers.CharField(
+        label='Мерзімнің өту күні', max_length=30)
+
+    def create(self, validated_data):
+        return super().create({**validated_data, 'owner': self.context['request'].user})
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         user = self.context.get('request').user
 
-        print('user: ', user, user.is_authenticated)
-        print('data: ', data)
-
         return data
+
+    def validate_production_date(self, value):
+        return validate_datetime_format(value)
+    
+    def validate_expiration_date(self, value):
+        return validate_datetime_format(value)
 
     class Meta:
         model = Item
-        fields = '__all__'
+        exclude = ['owner']
 
 
 class TagSerializer(serializers.ModelSerializer):
