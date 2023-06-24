@@ -5,33 +5,68 @@
  * 3. error type
  */
 
-const HOST = "http://192.168.228.38";
-const PORT = "8000";
+export const HOST = "http://192.168.196.38";
+export const PORT = "8000";
 
-const BASE_URL = `${HOST}:${PORT}/api`;
+export const BASE_URL = `${HOST}:${PORT}/api`;
 
-import type { I_Response } from "@/def_types/api";
+import type { I_Response, I_DefaultHeaders, HttpMethod } from "@/def_types/api";
 
 import { localStorage, objectToUrlParams, convertKeysCase } from "@/utils";
 import { defaultUserState } from "@/store/user-atom";
+import _ from "lodash";
 
-function requestWithData(method: "POST" | "PATCH" | "PUT" | "DELETE") {
-  return async <T>(url: string, data?: object): Promise<I_Response<T>> => {
+interface I_FetchOptions {
+  headersCustomize?: (defaultHeaders: I_DefaultHeaders) => HeadersInit;
+  payloadCustomize?: () => BodyInit | null | undefined;
+}
+
+function requestWithData(method: Exclude<HttpMethod, "GET">) {
+  return async <T>(
+    url: string,
+    data?: object,
+    options?: I_FetchOptions
+  ): Promise<I_Response<T>> => {
+    // API endpoint
+    url = `${BASE_URL}${url}`;
+    // 用户 Token
+    const { token } = localStorage.get("user", defaultUserState);
+
+    // 如果有 data
     if (data) {
-      data = convertKeysCase(data, "snake");
+      // 如果要 自定义上传数据
+      if (options?.payloadCustomize) {
+        // @ts-ignore ( 一般返回 FormData )
+        data = options.payloadCustomize();
+      } else {
+        // @ts-ignore 默认 data 是 object 类型, 转为 snake case
+        data = JSON.stringify(convertKeysCase(data, "snake"));
+      }
     }
 
-    // before fetch
-    const { token } = localStorage.get("user", defaultUserState);
-    url = `${BASE_URL}${url}`;
+    let defaultHeaders = {
+      Authorization: token,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
+
+    // if data is FormData, then "Content-Type" is automatically set by browser
+    if (data instanceof FormData) {
+      defaultHeaders = _.omit(
+        defaultHeaders,
+        "Content-Type"
+      ) as I_DefaultHeaders;
+    }
+
+    // 自定义 请求头
+    const headers =
+      (options?.headersCustomize?.(defaultHeaders) as I_DefaultHeaders) ??
+      defaultHeaders;
 
     const response = await fetch(url, {
       method,
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
+      headers,
+      body: data as any as string | FormData,
     }).catch(() => {
       return { isSuccess: false, message: "Сервер уақытша жабық" };
     });
@@ -52,20 +87,23 @@ function requestWithData(method: "POST" | "PATCH" | "PUT" | "DELETE") {
 
 export default {
   async get<T>(url: string, params?: object): Promise<I_Response<T>> {
+    // 在 url 上拼接 params
     if (params) {
       url += `?${objectToUrlParams(params)}`;
     }
-
-    // before fetch
-    const { token } = localStorage.get("user", defaultUserState);
     url = `${BASE_URL}${url}`;
+    // 用户 Token
+    const { token } = localStorage.get("user", defaultUserState);
+
+    let defaultHeaders = {
+      Authorization: token,
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    };
 
     const response = await fetch(url, {
       method: "GET",
-      headers: {
-        Authorization: token,
-        "Content-Type": "application/json",
-      },
+      headers: defaultHeaders,
     }).catch(() => {
       return { isSuccess: false, message: "Сервер уақытша жабық" };
     });
