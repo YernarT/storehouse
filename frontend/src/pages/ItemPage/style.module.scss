@@ -1,0 +1,44 @@
+@import "@/assets/style/mixins.scss";
+
+.itemPage {
+  :global .form {
+    padding: 16px;
+
+    :global .ant-form-item {
+      margin-bottom: 16px;
+
+      :global .ant-form-item-label {
+        padding-bottom: 2px;
+
+        label {
+          height: max-content;
+          font-size: 12px;
+        }
+      }
+
+      :global .ant-input-number {
+        width: 100%;
+      }
+
+      :global .ant-upload {
+        @include flexCenter($direction: column, $gap: 4px);
+
+        svg {
+          @include svgStyle($size: 22px);
+        }
+      }
+
+      :global .ant-upload-list {
+        display: flex;
+      }
+    }
+
+    :global .row {
+      @include flex($gap: 12px);
+
+      & > * {
+        flex: 1 1 50%;
+      }
+    }
+  }
+}

@@ -29,6 +29,14 @@ const routes: I_Route[] = [
   },
 
   {
+    path: "/item",
+    component: lazy(() => import("@/pages/ItemPage")),
+    fallback: <CommonSkeleton />,
+    auth: true,
+    exact: true,
+  },
+
+  {
     path: "/profile",
     component: lazy(() => import("@/pages/ProfilePage")),
     fallback: <CommonSkeleton />,
