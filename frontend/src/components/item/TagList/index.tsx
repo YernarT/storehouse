@@ -20,6 +20,7 @@ import classes from "./style.module.scss";
 
 // Props
 interface TagListProps {
+  className?: string;
   data: I_Tag[];
 }
 interface TagCSSProperties extends CSSProperties {
@@ -27,7 +28,7 @@ interface TagCSSProperties extends CSSProperties {
   "--background-color": string;
 }
 
-export default memo(function TagList({ data }: TagListProps) {
+export default memo(function TagList({ className, data }: TagListProps) {
   const history = useHistory();
 
   const hasTag = useCreation(() => {
@@ -35,7 +36,7 @@ export default memo(function TagList({ data }: TagListProps) {
   }, [data.length]);
 
   return (
-    <div className={classes.tagList}>
+    <div className={`${classes.tagList} ${className}`}>
       <Button
         className="all-tag"
         icon={<BsTags />}
