@@ -43,6 +43,14 @@ class ItemSerializer(serializers.ModelSerializer):
     def validate_expiration_date(self, value):
         return validate_datetime_format(value)
 
+    def validate(self, attrs):
+        for key, value in attrs.items():
+            if type(value) is str:
+                attrs[key] = value.strip('"')
+
+        print('attrs: ', attrs)
+        return super().validate(attrs)
+
     class Meta:
         model = Item
         exclude = ['owner']
