@@ -22,20 +22,16 @@ import classes from "./style.module.scss";
 import routes from "@/routes";
 
 export default function SafeArea() {
+  const history = useHistory();
+  const location = useLocation();
   const user = useRecoilValue(A_User);
   const isAuthenticated = useRecoilValue(S_UserIsAuthenticated);
   const setPage = useSetRecoilState(A_Page);
-  const history = useHistory();
-  const location = useLocation();
 
   const showFloatBtn = useCreation(() => {
     const allowedPages = ["/main"];
     return allowedPages.includes(location.pathname);
   }, [location.pathname]);
-
-  const handleFloatBtn = useMemoizedFn(() => {
-    console.log("handle float btn");
-  });
 
   return (
     <div className={classes.safeArea}>
@@ -48,7 +44,7 @@ export default function SafeArea() {
           className="float-btn"
           type="primary"
           icon={<AiOutlinePlus />}
-          onClick={handleFloatBtn}
+          onClick={() => history.push("/item")}
         />
       )}
     </div>

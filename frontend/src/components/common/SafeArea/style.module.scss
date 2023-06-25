@@ -1,41 +1,43 @@
-@import '@/assets/style/mixins.scss';
+@import "@/assets/style/mixins.scss";
 
 .safeArea {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
+  width: 100dvw;
+  min-height: 100dvh;
+  overflow: hidden;
 
-	@include centerPositioned();
+  @media screen and (min-width: 520px) {
+    width: 375px;
+    height: 580px;
+    border-radius: var(--border-radius);
+    box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px,
+      rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
+  }
 
-	@media screen and (min-width: 520px) {
-		width: 375px;
-		height: 580px;
-		border-radius: var(--border-radius);
-		box-shadow: rgba(50, 50, 93, 0.25) 0 50px 100px -20px,
-			rgba(0, 0, 0, 0.3) 0 30px 60px -30px;
-	}
+  > * {
+    height: 100%;
+    overflow: hidden auto;
 
-	> * {
-		height: 100%;
-		overflow: hidden auto;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
 
-		&::-webkit-scrollbar {
-			display: none;
-		}
-	}
+  > main {
+    min-height: 100dvh;
+  }
 
-	:global .float-btn {
-		width: 64px;
-		height: 64px;
-		border-radius: 50%;
+  :global .float-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
 
-		@include positioned($position: fixed, $bottom: 16px, $right: 16px);
+    @include positioned($position: fixed, $bottom: 16px, $right: 16px);
 
-		svg {
-			width: 28px;
-			height: 28px;
+    svg {
+      width: 28px;
+      height: 28px;
 
-			@include centerPositioned();
-		}
-	}
+      @include centerPositioned();
+    }
+  }
 }
