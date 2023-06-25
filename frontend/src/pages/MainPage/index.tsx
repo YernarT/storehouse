@@ -4,6 +4,8 @@ import type { I_User } from "@/def_types/user";
 
 // React
 import { useState, useRef } from "react";
+// Router
+import { useHistory } from "react-router-dom";
 // Recoil
 import { useRecoilValue, useRecoilState } from "recoil";
 import { A_User, A_Page } from "@/store";
@@ -17,17 +19,15 @@ import {
 } from "ahooks";
 // API
 import { API_GetItem, API_GetTag } from "@/service/item-api";
-// Utils
-import { isObject, has } from "lodash";
 
 // Antd component
-import { Empty, App, Modal, Descriptions, Button } from "antd";
+import { Empty, App, Button } from "antd";
 // Icons
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { BiTime } from "react-icons/bi";
 import { BsSortUpAlt, BsSortDownAlt } from "react-icons/bs";
 // Custom component
-import { MainHeader, TagList } from "@/components/item";
+import { MainHeader, TagList, ItemCard } from "@/components/item";
 
 // Scoped style
 import classes from "./style.module.scss";
@@ -35,6 +35,7 @@ import classes from "./style.module.scss";
 type sort = "asc" | "desc";
 
 export default function MainPage() {
+  const history = useHistory();
   const user = useRecoilValue(A_User);
   const [page, setPage] = useRecoilState(A_Page);
   const { message: AntdMessage } = App.useApp();
@@ -49,6 +50,19 @@ export default function MainPage() {
 
   const [state, setState] = useSetState({
     tagList: [] as I_Tag[],
+    itemList: [] as I_Item[],
+  });
+
+  const { loading: loadingGetTag } = useRequest(API_GetTag, {
+    onSuccess(res) {
+      setState({ tagList: res.data });
+    },
+  });
+
+  const { loading: loadingGetItem } = useRequest(API_GetItem, {
+    onSuccess(res) {
+      setState({ itemList: res.data });
+    },
   });
 
   const handleSearch = (searchText: string) => {
@@ -62,12 +76,6 @@ export default function MainPage() {
         [whichSort]: prevState.sort[whichSort] === "asc" ? "desc" : "asc",
       },
     }));
-  });
-
-  const { loading: loadingGetItem } = useRequest(API_GetTag, {
-    onSuccess(res) {
-      setState({ tagList: res.data });
-    },
   });
 
   return (
@@ -89,9 +97,15 @@ export default function MainPage() {
         </Button>
       </div>
 
-      <TagList data={state.tagList} />
+      <TagList className="tag-list" data={state.tagList} />
 
-      <p>Main Page</p>
+      <div className="item-list">
+        {state.itemList.map((item) => (
+          <ItemCard key={item.id} item={item} />
+        ))}
+
+        {state.itemList.length === 0 && <Empty />}
+      </div>
     </main>
   );
 }

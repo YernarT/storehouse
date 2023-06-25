@@ -7,6 +7,7 @@
 
   :global .sort {
     width: 100%;
+    flex: 0 0 max-content;
     @include flex($gap: 16px);
 
     :global .item {
@@ -29,8 +30,20 @@
     }
   }
 
-  :global .ant-empty {
+  :global .tag-list {
+    flex: 0 0 max-content;
+  }
+
+  :global .item-list {
+    flex: 1 1 auto;
     width: 100%;
-    margin: auto;
+    height: 100%;
+    @include flex($direction: column, $gap: 16px);
+
+    :global .ant-empty {
+      width: 100%;
+
+      margin: auto;
+    }
   }
 }
